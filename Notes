@@ -1,0 +1,68 @@
+from  PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import (QApplication,QWidget,QPushButton,QLabel,QVBoxLayout,QHBoxLayout,QListWidget,QTextEdit,QLineEdit,QMessageBox,QInputDialog)
+
+app = QApplication([])
+mw = QWidget()
+mw.setWindowTitle('Розумні замітки')
+mw.resize(900,700)
+
+textEdit = ()
+listNotes = QListWidget()
+listTags = QListWidget()
+inputTag = QLineEdit()
+labelNotes = QLabel("Список заміток")
+labelTags = QLabel("Список тегів")
+
+btn_createNote = QPushButton("Створити замітку")
+btn_saveNote = QPushButton("Зберегти замітку")               
+btn_deleteNote = QPushButton("Видалити замітку")
+
+btn_addToNote = QPushButton("Створити замітку")
+btn_unpickFromNote = QPushButton("Зберегти замітку")               
+btn_searchNote = QPushButton("Видалити замітку")
+
+
+linEdit = QLineEdit("")
+linEdit.placeholderText("Введіть тег")
+
+layout_notes = QHBoxLayout()
+
+col_1 = QVBoxLayout
+col_1.addWidget(textEdit)
+
+col_2 = QVBoxLayout
+col_2.addWidget(labelNotes)
+col_2.addWidget(listNotes)
+
+row_1 = QHBoxLayout
+row_1.addWidget(btn_createNote)
+row_1.addWidget(btn_deleteNote)
+
+row_2 = QHBoxLayout
+row_2.addWidget(btn_saveNote)
+
+col_2.addLayout(row_1)
+col_2.addLayout(row_2)
+
+col_2.addWidget(labelTags)
+col_2.addWidget(listTags)
+col_2.addWidget(linEdit)
+
+row_3 = QHBoxLayout
+row_3.addWidget(btn_addToNote)
+row_3.addWidget(btn_unpickFromNote)
+
+row_4 = QHBoxLayout
+row_4.addWidget(btn_searchNote)
+
+col_2.addLayout(row_3)
+col_2.addLayout(row_4)
+
+layout_notes.addLayout(col_1, stretch=2)
+layout_notes.addLayout(col_2,stretch=1)
+
+mw.show()
+app.exec_()
+
+
+
