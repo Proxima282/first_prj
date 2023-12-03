@@ -1,68 +1,58 @@
-from  PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QApplication,QWidget,QPushButton,QLabel,QVBoxLayout,QHBoxLayout,QListWidget,QTextEdit,QLineEdit,QMessageBox,QInputDialog)
+from Notes import*
+import json
 
-app = QApplication([])
-mw = QWidget()
-mw.setWindowTitle('Розумні замітки')
-mw.resize(900,700)
+notes = dict()
+try:
+    with open("data.json","r",encoding="utf - 8") as file:
+            notes = json.load(file)
 
-textEdit = ()
-listNotes = QListWidget()
-listTags = QListWidget()
-inputTag = QLineEdit()
-labelNotes = QLabel("Список заміток")
-labelTags = QLabel("Список тегів")
+except:
+    print("Такого файлу не існує ")
 
-btn_createNote = QPushButton("Створити замітку")
-btn_saveNote = QPushButton("Зберегти замітку")               
-btn_deleteNote = QPushButton("Видалити замітку")
-
-btn_addToNote = QPushButton("Створити замітку")
-btn_unpickFromNote = QPushButton("Зберегти замітку")               
-btn_searchNote = QPushButton("Видалити замітку")
+def show_note():
+    textEdit.clear
+    key = listNotes.selectedItems()[0].text() #Отримати назву замітки,яку треба відобразити 
+    textEdit.setText(notes[key]["текст"])#За ключами отримати текст замітки і вставити у її віджет
 
 
-linEdit = QLineEdit("")
-linEdit.placeholderText("Введіть тег")
+def add_note():
+    note_name, ok = QInputDialog.getText(mw,"Додати замітку","Назва замітки")#Діалогове вікно створення нової замітки 
+    if ok and note_name != "": #чи ми ввели назву замітки і натиснули ок
+        notes[note_name] = {"текст":"","теги":[]}#Створюється струткура заітки з назвою
+        listNotes.addItem(note_name)#назва замітки поміщається у віджет списку заміток
+        listTags.addItems(notes[note_name]["теги"])#теги замітки поміщається у список тегів
+        print(notes)
 
-layout_notes = QHBoxLayout()
+def save_note():
+    if listNotes.selectedItems():
+        key = listNotes.selectedItems()[0].text()#отриууємо назви замітки яку ми отримаємо
+        notes[key]["текст"] = textEdit.toPlainText()#отримуємо текст замітки
+        with open("data.json","w",encoding="utf-8")as file:
+            json.dump(notes,file,sort_keys=True,ensure_ascii=False)
+    else:
+        print("Ви не вибрали замітку")
 
-col_1 = QVBoxLayout
-col_1.addWidget(textEdit)
+def del_note():
+    if listNotes.selectedItems:
+        key = listNotes.selectedItems()[0].text()#отримуємо назву замітки 
+        del notes[key]#Видаляємо елементи словника за ключем
+        listNotes.clear
+        listTags.clear()
+        textEdit.clear()
+        #Оновлюємо віджет
+        listNotes.addItems(notes)
+        with open("data.json","w",encoding="utf-8") as file:
+            json.dump(notes,file,sort_keys=True,ensure_ascii=False)
+    else:
+        print("Ви не вибрали замітку!")
 
-col_2 = QVBoxLayout
-col_2.addWidget(labelNotes)
-col_2.addWidget(listNotes)
-
-row_1 = QHBoxLayout
-row_1.addWidget(btn_createNote)
-row_1.addWidget(btn_deleteNote)
-
-row_2 = QHBoxLayout
-row_2.addWidget(btn_saveNote)
-
-col_2.addLayout(row_1)
-col_2.addLayout(row_2)
-
-col_2.addWidget(labelTags)
-col_2.addWidget(listTags)
-col_2.addWidget(linEdit)
-
-row_3 = QHBoxLayout
-row_3.addWidget(btn_addToNote)
-row_3.addWidget(btn_unpickFromNote)
-
-row_4 = QHBoxLayout
-row_4.addWidget(btn_searchNote)
-
-col_2.addLayout(row_3)
-col_2.addLayout(row_4)
-
-layout_notes.addLayout(col_1, stretch=2)
-layout_notes.addLayout(col_2,stretch=1)
+btn_createNote.clicked.connect(add_note)
+btn_saveNote.clicked.connect(save_note)
+btn_deleteNote.clicked.connect(del_note)
+listNotes.itemClicked.connect(show_note)
 
 mw.show()
-app.exec_()
+app.exec()
 
 
 
