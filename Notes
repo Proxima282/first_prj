@@ -62,8 +62,6 @@ layout_notes.addLayout(col_2,stretch=1)
 
 mw.setLayout(layout_notes)
 
-mw.show()
-app.exec_()
 
 
 
