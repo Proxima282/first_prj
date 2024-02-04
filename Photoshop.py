@@ -1,8 +1,10 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QListWidget, QHBoxLayout, QVBoxLayout, QFileDialog,QMainWindow,QAction
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QListWidget, QHBoxLayout, QVBoxLayout, QFileDialog, QMainWindow, QAction
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt
 from PIL import Image, ImageFilter
 from os import *
+from PaintWindow import*
+import styles 
 
 app = QApplication([])
 main_win = QMainWindow()
@@ -128,34 +130,33 @@ def showChosenImage():
         workimage.showImage(path.join(workdir, filename))
 
 menubar = main_win.menuBar()
-
 file_menu = menubar.addMenu("File")
-
-open_action = QAction("Open",main_win)
-save_action = QAction("Save",main_win)
-quit_action = QAction("Quit",main_win)
-quit_action.setShortcut("Ctrl+A")
+new_action = QAction("Open", main_win)
+new_action.setShortcut("Ctrl+O")
+open_action = QAction("Open", main_win)
 open_action.setShortcut("Ctrl+O")
+save_action = QAction(QIcon("ImageEditor\save.png"), "Save", main_win)
 save_action.setShortcut("Ctrl+S")
+quit_action = QAction("Quit", main_win)
+quit_action.setShortcut("Ctrl+Q")
+file_menu.addAction(new_action)
 file_menu.addAction(open_action)
 file_menu.addAction(save_action)
 file_menu.addAction(quit_action)
 
 def save_file():
-    file_name, _ = QFileDialog.getSaveFileName(main_win, "Save File","","JPEG (*,jpg);;PNG (*.png);;GIF (*.gif)")
+    file_name, _ = QFileDialog.getSaveFileName(main_win, "Save File", "", "JPEG (*.jpg);;PNG (*.png);;GIF (*.gif)")
 
     if file_name:
-        image = Image.open(workdir + '/' + workimage.save_dir + '/'+ file_list.currentItem().text())
-        image.save(file_name + ".jpg","JPEG")
+        image = Image.open(workdir + '/' + workimage.save_dir + '/' + file_list.currentItem().text())
+        image.save(file_name, "JPEG")
 
 def open_file():
-    file_name, _ = QFileDialog.getOpenFileName(main_win, "Open File", "","JPEG (*,jpg);;PNG (*.png);;GIF (*.gif)")
+    file_name, _ = QFileDialog.getOpenFileName(main_win, "Open File", "", "JPEG (*.jpg);;PNG (*.png);;GIF (*.gif)")
     
     if file_name:
         workimage.showImage(file_name)
         workimage.image = Image.open(file_name)
-
-
 
 file_list.itemClicked.connect(showChosenImage)
 btn_open_folder.clicked.connect(showFilenamesList)
@@ -164,6 +165,7 @@ btn_left.clicked.connect(workimage.rotate_left)
 btn_left.clicked.connect(workimage.rotate_right)
 btn_mirror.clicked.connect(workimage.mirror)
 btn_sharpness.clicked.connect(workimage.sharpnen)
+main_win.setStyleSheet(styles.style)
 save_action.triggered.connect(save_file)
 open_action.triggered.connect(open_file)
 quit_action.triggered.connect(main_win.close)
