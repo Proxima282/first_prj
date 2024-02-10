@@ -1,34 +1,25 @@
 style = """
-    QWidget {
-        background: #2200FF;
-        color: #111111;
-        border-color: #FF0000;
+
+    QWidget{
+        background: rgb(60, 120, 150);
+        fond: normal small-caps normal 20px/1.4 sans-serif;
     }
-    QPushButton {
-        border-style: none;
-        border-color: #050a0e;
-        border-width: 1px;
-        border-radius: 5px;
-        color: #FFFFFF;
-        padding: 2px;
-        background-color: #468ABF;
+    QListWidget{
+        border: 3px solid black;
+        color: white;
+    }
+    QListWidget::item:selected{
+        color: #7a369e;
+    }
+    QPushButton{
+        color: rgb(123, 209, 82);
+        border: 1px solid black;
     }
     QPushButton:hover{
         color: #111111;
-        border-width: 3px;
-        border-style: ridge;
-        border-color: #004579;
+        border: 2px solid black;
     }
-    QListWidget{
-        border-style: solid;
-        border-width: 5px;
-        border-color: #FFFFFF;
-        color: #FFFFFF;
-    }
-    QLabel{
-        border-style: solid;
-        border-width: 5px;
-        border-color: #FFFFFF;
-        color: #FFFFFF;
+    QPushButton:pressed{
+        color: #4ab553;
     }
 """
