@@ -148,7 +148,7 @@ def showChosenImage():
 #створення меню бара
 menubar = main_win.menuBar()
 file_menu = menubar.addMenu("File")#створення меню файла
-new_action = QAction("Open", main_win)#створення дії Новий,яка створює нове полотно 
+new_action = QAction("New", main_win)#створення дії Новий,яка створює нове полотно 
 new_action.setShortcut("Ctrl+O")#відкрити один файл 
 open_action = QAction("Open", main_win)
 open_action.setShortcut("Ctrl+O")
