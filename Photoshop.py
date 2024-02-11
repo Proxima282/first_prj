@@ -9,7 +9,7 @@ from PIL import Image, ImageFilter
 from os import *
 #окреме вікно яке дозволяє малювати 
 from PaintWindow import*
-import styles 
+import Styles 
 
 app = QApplication([])
 main_win = QMainWindow()
@@ -184,7 +184,7 @@ btn_left.clicked.connect(workimage.rotate_left)
 btn_left.clicked.connect(workimage.rotate_right)
 btn_mirror.clicked.connect(workimage.mirror)
 btn_sharpness.clicked.connect(workimage.sharpnen)
-main_win.setStyleSheet(styles.style)
+main_win.setStyleSheet(Styles.style)
 save_action.triggered.connect(save_file)
 open_action.triggered.connect(open_file)
 quit_action.triggered.connect(main_win.close)
